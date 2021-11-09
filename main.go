@@ -1,3 +1,9 @@
+//Package main provides API to generate a simple CRUD.
+// @title User API documentation
+// @version 1.0.0
+
+// @host localhost:3000
+// @BasePath /tasks
 package main
 
 import (
@@ -28,17 +34,17 @@ var tasks = allTasks{
 	},
 }
 
-// Get all tasks.
+//getTasks get all tasks.
 func getTasks(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(tasks)
 }
 
-// Get specific task depending ID parameter.
+// getTask get specific task depending ID parameter.
 func getTask(w http.ResponseWriter, r *http.Request) {
 	// Get parameter.
 	vars := mux.Vars(r)
-	taskId, err := strconv.Atoi(vars["id"])
+	taskID, err := strconv.Atoi(vars["id"])
 
 	if err != nil {
 		fmt.Fprintf(w, "Invalid ID")
@@ -46,7 +52,7 @@ func getTask(w http.ResponseWriter, r *http.Request) {
 	}
 
 	for _, value := range tasks {
-		if value.ID == taskId {
+		if value.ID == taskID {
 			w.Header().Set("Content-Type", "application/json")
 			json.NewEncoder(w).Encode(value)
 		}
@@ -54,11 +60,11 @@ func getTask(w http.ResponseWriter, r *http.Request) {
 
 }
 
-// Delete specific task depending ID parameter.
+// deleteTask delete specific task depending ID parameter.
 func deleteTask(w http.ResponseWriter, r *http.Request) {
 	// Get parameter.
 	vars := mux.Vars(r)
-	taskId, err := strconv.Atoi(vars["id"])
+	taskID, err := strconv.Atoi(vars["id"])
 
 	if err != nil {
 		fmt.Fprintf(w, "Invalid ID")
@@ -66,13 +72,14 @@ func deleteTask(w http.ResponseWriter, r *http.Request) {
 	}
 
 	for i, value := range tasks {
-		if value.ID == taskId {
+		if value.ID == taskID {
 			tasks = append(tasks[:i], tasks[i+1:]...)
-			fmt.Fprintf(w, "The task ID %v was removed succesfully", taskId)
+			fmt.Fprintf(w, "The task ID %v was removed succesfully", taskID)
 		}
 	}
 }
 
+// createTask create task.
 func createTask(w http.ResponseWriter, r *http.Request) {
 	var newTask person
 	// ioutil manage enter and output server.
@@ -94,6 +101,7 @@ func createTask(w http.ResponseWriter, r *http.Request) {
 
 }
 
+// updateTask update specific task depending ID parameter.
 func updateTask(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	taskID, err := strconv.Atoi(vars["id"])
