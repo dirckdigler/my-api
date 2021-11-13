@@ -5,13 +5,14 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	"github.com/dirckdigler/my-api-golang/routers"
 	"github.com/gorilla/mux"
 	"github.com/stretchr/testify/assert"
 )
 
 func Router() *mux.Router {
 	router := mux.NewRouter()
-	router.HandleFunc("/tasks", getTasks).Methods("GET")
+	router.HandleFunc("/tasks", routers.GetTasks).Methods("GET")
 	return router
 }
 
